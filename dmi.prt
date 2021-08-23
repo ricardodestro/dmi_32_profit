@@ -1,0 +1,42 @@
+// Indicador ADX Di+ Di-
+// Regra de coloração definido a linha de tendência em 32 
+
+Input
+period(8);
+
+Var
+adx1, dmiPlus, dmiMinor:float;
+
+begin
+
+  // Line
+  Plot(32);
+  SetPlotColor(1, clPurple);
+
+  // ADX
+  adx1:=(adx(period,period));
+  plot2(adx1);
+  SetPlotColor(2,clBranco);
+  SetPlotWidth(2,1);
+
+  // DI+
+  dmiPlus:=(DIPDiM(period)|0|);
+  Plot3(dmiPlus);
+  SetPlotColor(3,clAqua);
+  SetPlotWidth(3,1);
+
+  // DI-
+  dmiMinor:=(DIPDiM(period)|1|);
+  Plot4(dmiMinor);
+  SetPlotColor(4,clAmarelo);
+  SetPlotWidth(4,1);
+
+  // Sem tendencia
+  // Cainte e ADX < 32 
+  se (adx1 < adx1[1]) e (adx1 < 32) then
+    SetPlotColor(2,clVermelho);
+  // ADX abaixo do DI+ e DI-
+  se (adx1 < dmiPlus) e (adx1 < dmiMinor) then
+    SetPlotColor(2,clVermelho);
+
+end;
